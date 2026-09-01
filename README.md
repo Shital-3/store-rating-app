@@ -169,20 +169,32 @@ npm start
 
 ## Screenshots
 
-### Login Page
+Explore the application interface through the following screenshots:
+
+### 🔐 Login Page
 Clean and professional authentication interface with email and password fields.
+
 ![Login Page](screenshots/login.png)
 
-### User Dashboard
+---
+
+### 👤 User Dashboard
 Browse and search stores with real-time ratings and the ability to submit ratings.
+
 ![User Dashboard](screenshots/user-dashboard.png)
 
-### Owner Dashboard
+---
+
+### 🏪 Owner Dashboard
 Store owners can view their assigned store performance and customer ratings.
+
 ![Owner Dashboard](screenshots/owner-dashboard.png)
 
-### Admin Dashboard
+---
+
+### 🎯 Admin Dashboard
 Comprehensive admin overview with statistics on total users, stores, and ratings.
+
 ![Admin Dashboard](screenshots/admin-dashboard.png)
 
 ## License
