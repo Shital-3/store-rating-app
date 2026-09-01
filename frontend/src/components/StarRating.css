@@ -1,0 +1,13 @@
+.star-rating {
+    display: inline-flex;
+    gap: 2px;
+}
+
+.star {
+    font-size: 18px;
+    color: #d1d5db;
+}
+
+.star.filled {
+    color: var(--color-gold);
+}

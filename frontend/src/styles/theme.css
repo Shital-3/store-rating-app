@@ -1,0 +1,29 @@
+/* Mobile breakpoint convention: 768px, used literally in @media queries
+   throughout the app (CSS custom properties don't work inside @media
+   conditions). If this needs to change, search-and-replace "768px". */
+
+
+:root {
+    --color-navy: #0f1b2d;
+    --color-primary: #1d5fad;
+    --color-primary-dark: #154a8c;
+    --color-bg: #eef1f6;
+    --color-card: #ffffff;
+    --color-border: #e1e5eb;
+    --color-text: #1b2430;
+    --color-text-muted: #6b7280;
+    --color-gold: #f5a623;
+    --radius: 10px;
+    --shadow-card: 0 1px 3px rgba(15, 27, 45, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}

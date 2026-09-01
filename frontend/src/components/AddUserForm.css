@@ -1,0 +1,53 @@
+.add-user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.add-user-form label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.add-user-form input,
+.add-user-form textarea,
+.add-user-form select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    font-size: 14px;
+    background: white;
+}
+
+.field-hint {
+    font-size: 11px;
+    color: var(--color-text-muted);
+}
+
+.form-error {
+    color: #dc2626;
+    font-size: 13px;
+    background: #fee2e2;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.submit-btn {
+    margin-top: 16px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.submit-btn:hover,
+.submit-btn:focus-visible {
+    background: var(--color-primary-dark);
+    outline: none;
+}
