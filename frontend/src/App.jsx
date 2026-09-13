@@ -1,4 +1,10 @@
+
+
+console.log('TEST VAR:', import.meta.env.VITE_TEST_HELLO);
 import { Routes, Route, Navigate } from "react-router-dom";
+
+
+
 
 import Login from "./pages/Login";
 import ProtectedRoute from "./routes/ProtectedRoute";
