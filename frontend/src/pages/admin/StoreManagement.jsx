@@ -30,7 +30,7 @@ const StoreManagement = () => {
 
             setStores(response.data.stores);
 
-        } catch (err) {
+        } catch {
             setError("Failed to load stores");
         }
     };

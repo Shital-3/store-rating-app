@@ -18,15 +18,11 @@ const UserManagement = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (location.state?.openAddPanel) {
-            setPanelOpen(true);
-        }
-    }, [location.state]);
-
     const [sortBy, setSortBy] = useState("id");
     const [order, setOrder] = useState("asc");
-    const [panelOpen, setPanelOpen] = useState(false);
+    const [panelOpen, setPanelOpen] = useState(
+        () => Boolean(location.state?.openAddPanel)
+    );
     const [error, setError] = useState("");
 
     const fetchUsers = async () => {
@@ -41,7 +37,7 @@ const UserManagement = () => {
 
             setUsers(response.data.users);
 
-        } catch (err) {
+        } catch {
             setError("Failed to load users");
         }
     };

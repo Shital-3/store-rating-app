@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StarRating from "./StarRating";
 import "./StoreCard.css";
 
@@ -7,12 +7,25 @@ const StoreCard = ({ store, onSubmitRating }) => {
     const [selectedRating, setSelectedRating] = useState(
         store.user_rating || 0
     );
+    const [isSaving, setIsSaving] = useState(false);
+
+    // Keep local rating in sync if the store prop changes underneath us
+    // (e.g. after a refetch)
+    useEffect(() => {
+        setSelectedRating(store.user_rating || 0);
+    }, [store.user_rating]);
 
     const hasExistingRating = Boolean(store.user_rating);
+    const isUnchanged = hasExistingRating && selectedRating === store.user_rating;
 
-    const handleSubmit = () => {
-        if (selectedRating > 0) {
-            onSubmitRating(store.id, selectedRating);
+    const handleSubmit = async () => {
+        if (selectedRating === 0 || isUnchanged || isSaving) return;
+
+        setIsSaving(true);
+        try {
+            await onSubmitRating(store.id, selectedRating);
+        } finally {
+            setIsSaving(false);
         }
     };
 
@@ -36,7 +49,7 @@ const StoreCard = ({ store, onSubmitRating }) => {
                     <span className="rating-label">Your Rating</span>
                     <StarRating
                         rating={selectedRating}
-                        interactive={true}
+                        interactive={!isSaving}
                         onRate={setSelectedRating}
                     />
                 </div>
@@ -44,9 +57,13 @@ const StoreCard = ({ store, onSubmitRating }) => {
                 <button
                     className="submit-rating-btn"
                     onClick={handleSubmit}
-                    disabled={selectedRating === 0}
+                    disabled={selectedRating === 0 || isUnchanged || isSaving}
                 >
-                    {hasExistingRating ? "Modify Rating" : "Submit Rating"}
+                    {isSaving
+                        ? "Saving…"
+                        : hasExistingRating
+                            ? "Modify Rating"
+                            : "Submit Rating"}
                 </button>
             </div>
         </div>

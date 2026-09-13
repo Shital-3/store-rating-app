@@ -14,7 +14,7 @@ const AdminDashboard = () => {
                 const response = await axiosInstance.get("/admin/dashboard");
                 setStats(response.data);
 
-            } catch (err) {
+            } catch {
                 setError("Failed to load dashboard stats");
             }
         };

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { Menu, UserCircle } from "lucide-react";
+import { useAuth } from "../context/useAuth";
 import SidePanel from "./SidePanel";
 import UpdatePasswordForm from "./UpdatePasswordForm";
 import "./Navbar.css";
@@ -26,7 +27,7 @@ const Navbar = ({ showMenuButton = false, onMenuClick }) => {
                         onClick={onMenuClick}
                         aria-label="Open menu"
                     >
-                        ☰
+                        <Menu size={20} />
                     </button>
                 )}
                 <div className="navbar-logo">STORESCORE</div>
@@ -36,8 +37,9 @@ const Navbar = ({ showMenuButton = false, onMenuClick }) => {
                 <button
                     className="profile-icon"
                     onClick={() => setMenuOpen(!menuOpen)}
+                    aria-label="Profile menu"
                 >
-                    👤
+                    <UserCircle size={22} />
                 </button>
 
                 {menuOpen && (

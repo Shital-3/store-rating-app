@@ -46,26 +46,9 @@
     color: var(--color-text-muted);
 }
 
-.submit-rating-btn {
-    background: var(--color-primary);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 16px;
-    font-size: 13px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.submit-rating-btn:disabled {
-    background: #cbd5e1;
-    cursor: not-allowed;
-}
-
-.submit-rating-btn:not(:disabled):hover,
-.submit-rating-btn:not(:disabled):focus-visible {
-    background: var(--color-primary-dark);
-    outline: none;
+.saving-indicator {
+    font-style: italic;
+    color: var(--color-primary);
 }
 
 @media (max-width: 768px) {
@@ -76,10 +59,6 @@
 
     .store-rating-block {
         justify-content: space-between;
-        width: 100%;
-    }
-
-    .submit-rating-btn {
         width: 100%;
     }
 }

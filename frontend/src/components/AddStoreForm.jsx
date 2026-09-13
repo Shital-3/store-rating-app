@@ -23,7 +23,7 @@ const AddStoreForm = ({ onSuccess }) => {
 
                 setOwners(response.data.users);
 
-            } catch (err) {
+            } catch {
                 setError("Failed to load store owners");
             }
         };

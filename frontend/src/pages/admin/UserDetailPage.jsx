@@ -16,7 +16,7 @@ const UserDetailPage = () => {
             try {
                 const response = await axiosInstance.get(`/admin/users/${userId}`);
                 setUser(response.data.user);
-            } catch (err) {
+            } catch {
                 setError("Failed to load user details");
             }
         };

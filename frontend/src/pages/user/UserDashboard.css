@@ -9,6 +9,18 @@
     color: var(--color-text);
 }
 
+.success-toast {
+    position: fixed;
+    top: 88px;
+    right: 24px;
+    z-index: 100;
+    margin: 0;
+    padding: 12px 16px;
+    border-radius: 4px;
+    color: white;
+    background: #2e7d32;
+}
+
 .search-input {
     width: 100%;
     padding: 12px 16px;
@@ -28,5 +40,11 @@
 @media (max-width: 768px) {
     .dashboard-container {
         padding: 16px;
+    }
+
+    .success-toast {
+        top: 76px;
+        right: 16px;
+        left: 16px;
     }
 }
