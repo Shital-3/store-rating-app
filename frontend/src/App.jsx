@@ -1,6 +1,7 @@
 
 
 console.log('TEST VAR:', import.meta.env.VITE_TEST_HELLO);
+console.log("API URL:", import.meta.env.VITE_API_URL);
 import { Routes, Route, Navigate } from "react-router-dom";
 
 
