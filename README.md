@@ -268,6 +268,14 @@ From the `frontend` directory:
 npm run dev
 ```
 
+For local development, the frontend uses `http://localhost:5000` as the API by default. For production, configure `VITE_API_URL` as the backend origin (without `/api`) in the frontend build environment, for example:
+
+```env
+VITE_API_URL=https://your-backend-host
+```
+
+The frontend appends `/api` to this URL.
+
 Frontend application:
 
 ```text

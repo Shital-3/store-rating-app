@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
 import SidePanel from "../../components/SidePanel";
 import AddStoreForm from "../../components/AddStoreForm";
@@ -18,7 +18,7 @@ const StoreManagement = () => {
     const [panelOpen, setPanelOpen] = useState(false);
     const [error, setError] = useState("");
 
-    const fetchStores = async () => {
+    const fetchStores = useCallback(async () => {
         try {
             const response = await axiosInstance.get("/admin/stores", {
                 params: {
@@ -33,7 +33,7 @@ const StoreManagement = () => {
         } catch {
             setError("Failed to load stores");
         }
-    };
+    }, [filters, sortBy, order]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -41,7 +41,7 @@ const StoreManagement = () => {
         }, 400);
 
         return () => clearTimeout(timer);
-    }, [filters, sortBy, order]);
+    }, [filters, sortBy, order, fetchStores]);
 
     const handleFilterChange = (e) => {
         setFilters({

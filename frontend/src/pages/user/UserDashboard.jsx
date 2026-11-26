@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
 import Navbar from "../../components/Navbar";
 import StoreCard from "../../components/StoreCard";
@@ -10,7 +10,7 @@ const UserDashboard = () => {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
-    const fetchStores = async (searchTerm) => {
+    const fetchStores = useCallback(async (searchTerm) => {
         try {
             const response = await axiosInstance.get("/user/stores", {
                 params: {
@@ -20,10 +20,10 @@ const UserDashboard = () => {
             });
 
             setStores(response.data.stores);
-        } catch (err) {
+        } catch {
             setError("Failed to load stores");
         }
-    };
+    }, []);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -31,7 +31,7 @@ const UserDashboard = () => {
         }, 400);
 
         return () => clearTimeout(timer);
-    }, [search]);
+    }, [search, fetchStores]);
 
     const handleSubmitRating = async (storeId, rating) => {
         const store = stores.find((s) => s.id === storeId);
@@ -57,7 +57,7 @@ const UserDashboard = () => {
                 setSuccess("");
             }, 1800);
 
-        } catch (err) {
+        } catch {
             setError("Failed to submit rating");
         }
     };

@@ -26,7 +26,8 @@ export const signup = async (req, res) => {
 
         if (
             !name ||
-            !email ||
+            typeof email !== "string" ||
+            !email.trim() ||
             !address ||
             !password ||
             !confirmPassword
@@ -67,17 +68,18 @@ export const signup = async (req, res) => {
         // 4. Validate email
         // -----------------------------
 
+        const normalizedEmail = email.trim().toLowerCase();
+
         const emailRegex =
             /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!emailRegex.test(email)) {
+        if (!emailRegex.test(normalizedEmail)) {
 
             return res.status(400).json({
                 message: "Please enter a valid email address."
             });
 
         }
-
 
         // -----------------------------
         // 5. Validate password
@@ -114,8 +116,8 @@ export const signup = async (req, res) => {
         // -----------------------------
 
         const [existingUsers] = await pool.query(
-            "SELECT id FROM users WHERE email = ?",
-            [email]
+            "SELECT id FROM users WHERE LOWER(TRIM(email)) = ?",
+            [normalizedEmail]
         );
 
         if (existingUsers.length > 0) {
@@ -145,7 +147,7 @@ export const signup = async (req, res) => {
             VALUES (?, ?, ?, ?, ?)`,
             [
                 name,
-                email,
+                normalizedEmail,
                 hashedPassword,
                 address,
                 "USER"
@@ -164,7 +166,7 @@ export const signup = async (req, res) => {
             user: {
                 id: result.insertId,
                 name,
-                email,
+                email: normalizedEmail,
                 address,
                 role: "USER"
             }
@@ -202,7 +204,12 @@ export const login = async (req, res) => {
         // 1. Required fields
         // -----------------------------
 
-        if (!email || !password) {
+        if (
+            typeof email !== "string" ||
+            typeof password !== "string" ||
+            !email.trim() ||
+            !password
+        ) {
 
             return res.status(400).json({
                 message: "Please enter both email and password."
@@ -210,14 +217,16 @@ export const login = async (req, res) => {
 
         }
 
+        const normalizedEmail = email.trim().toLowerCase();
+
 
         // -----------------------------
         // 2. Find user
         // -----------------------------
 
         const [users] = await pool.query(
-            "SELECT * FROM users WHERE email = ?",
-            [email]
+            "SELECT * FROM users WHERE LOWER(TRIM(email)) = ?",
+            [normalizedEmail]
         );
 
 
@@ -320,7 +329,14 @@ export const updatePassword = async (req, res) => {
         // -----------------------------
         // 1. Required fields
         // -----------------------------
-        if (!currentPassword || !newPassword || !confirmNewPassword) {
+        if (
+            typeof currentPassword !== "string" ||
+            typeof newPassword !== "string" ||
+            typeof confirmNewPassword !== "string" ||
+            !currentPassword ||
+            !newPassword ||
+            !confirmNewPassword
+        ) {
             return res.status(400).json({
                 message: "Please fill in your current password and new password fields."
             });

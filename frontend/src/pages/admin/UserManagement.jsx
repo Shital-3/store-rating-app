@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
 import SidePanel from "../../components/SidePanel";
 import AddUserForm from "../../components/AddUserForm";
@@ -25,7 +25,7 @@ const UserManagement = () => {
     );
     const [error, setError] = useState("");
 
-    const fetchUsers = async () => {
+    const fetchUsers = useCallback(async () => {
         try {
             const response = await axiosInstance.get("/admin/users", {
                 params: {
@@ -40,7 +40,7 @@ const UserManagement = () => {
         } catch {
             setError("Failed to load users");
         }
-    };
+    }, [filters, sortBy, order]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -48,7 +48,7 @@ const UserManagement = () => {
         }, 400);
 
         return () => clearTimeout(timer);
-    }, [filters, sortBy, order]);
+    }, [filters, sortBy, order, fetchUsers]);
 
     const handleFilterChange = (e) => {
         setFilters({

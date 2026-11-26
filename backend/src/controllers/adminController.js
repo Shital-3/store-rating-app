@@ -49,9 +49,46 @@ export const createUser = async (req, res) => {
         } = req.body;
 
         // Check required fields
-        if (!name || !email || !password || !address || !role) {
+        if (
+            !name ||
+            typeof email !== "string" ||
+            !email.trim() ||
+            !password ||
+            !address ||
+            !role
+        ) {
             return res.status(400).json({
                 message: "Please fill in all the required fields."
+            });
+        }
+
+        const normalizedEmail = email.trim().toLowerCase();
+
+        if (name.length < 20 || name.length > 60) {
+            return res.status(400).json({
+                message: "Name should be between 20 and 60 characters long."
+            });
+        }
+
+        if (address.length > 400) {
+            return res.status(400).json({
+                message: "Address cannot be longer than 400 characters."
+            });
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(normalizedEmail)) {
+            return res.status(400).json({
+                message: "Please enter a valid email address."
+            });
+        }
+
+        const passwordRegex =
+            /^(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,16}$/;
+        if (!passwordRegex.test(password)) {
+            return res.status(400).json({
+                message:
+                    "Password should be 8 to 16 characters long and include at least one uppercase letter and one special character."
             });
         }
 
@@ -66,8 +103,8 @@ export const createUser = async (req, res) => {
 
         // Check whether email already exists
         const [existingUser] = await pool.query(
-            "SELECT id FROM users WHERE email = ?",
-            [email]
+            "SELECT id FROM users WHERE LOWER(TRIM(email)) = ?",
+            [normalizedEmail]
         );
 
         if (existingUser.length > 0) {
@@ -86,7 +123,7 @@ export const createUser = async (req, res) => {
             VALUES (?, ?, ?, ?, ?)`,
             [
                 name,
-                email,
+                normalizedEmail,
                 hashedPassword,
                 address,
                 role
@@ -292,16 +329,55 @@ export const createStore = async (req, res) => {
         } = req.body;
 
         // Check required fields
-        if (!name || !email || !address) {
+        if (
+            !name ||
+            typeof email !== "string" ||
+            !email.trim() ||
+            !address
+        ) {
             return res.status(400).json({
                 message: "Please fill in the store name, email, and address."
             });
         }
 
+        const normalizedEmail = email.trim().toLowerCase();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(normalizedEmail)) {
+            return res.status(400).json({
+                message: "Please enter a valid store email address."
+            });
+        }
+
+        if (address.length > 400) {
+            return res.status(400).json({
+                message: "Address cannot be longer than 400 characters."
+            });
+        }
+
+        if (owner_id !== null && owner_id !== undefined && owner_id !== "") {
+            if (!Number.isInteger(Number(owner_id))) {
+                return res.status(400).json({
+                    message: "Please choose a valid store owner."
+                });
+            }
+
+            const [owners] = await pool.query(
+                "SELECT id FROM users WHERE id = ? AND role = 'OWNER'",
+                [Number(owner_id)]
+            );
+
+            if (owners.length === 0) {
+                return res.status(400).json({
+                    message: "The selected user is not an eligible store owner."
+                });
+            }
+        }
+
         // Check if store email already exists
         const [existingStore] = await pool.query(
-            "SELECT id FROM stores WHERE email = ?",
-            [email]
+            "SELECT id FROM stores WHERE LOWER(TRIM(email)) = ?",
+            [normalizedEmail]
         );
 
         if (existingStore.length > 0) {
@@ -317,7 +393,7 @@ export const createStore = async (req, res) => {
             VALUES (?, ?, ?, ?)`,
             [
                 name,
-                email,
+                normalizedEmail,
                 address,
                 owner_id || null
             ]

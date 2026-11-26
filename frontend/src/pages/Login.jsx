@@ -32,7 +32,11 @@ const Login = () => {
             else navigate("/user");
 
         } catch (err) {
-            const message = err.response?.data?.message || "Login failed";
+            const message =
+                err.response?.data?.message ||
+                (err.request
+                    ? "Unable to reach the server. Please try again."
+                    : err.message || "Login failed");
             setError(message);
         }
     };

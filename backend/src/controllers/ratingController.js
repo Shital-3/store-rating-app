@@ -1,9 +1,4 @@
 import pool from "../config/database.js";
-import bcrypt from "bcryptjs";
-
-
-
-
 export const submitRating = async (req, res) => {
     try {
         const userId = req.user.id;
@@ -17,10 +12,19 @@ export const submitRating = async (req, res) => {
         }
 
         // 2. Validate rating range
-        if (rating < 1 || rating > 5) {
+        if (
+            !Number.isInteger(storeId) ||
+            !Number.isInteger(rating)
+        ) {
             return res.status(400).json({
-                message: "Rating must be between 1 and 5."
+                message: "Please provide a valid store and rating."
             });
+        }
+
+        if (rating < 1 || rating > 5) {
+                return res.status(400).json({
+                    message: "Rating must be between 1 and 5."
+                });
         }
 
         // 3. Insert or update in one query
@@ -28,7 +32,7 @@ export const submitRating = async (req, res) => {
             `INSERT INTO ratings (user_id, store_id, rating)
              VALUES (?, ?, ?)
              ON DUPLICATE KEY UPDATE rating = ?`,
-            [userId, storeId, rating, rating]
+            [userId, Number(storeId), Number(rating), Number(rating)]
         );
 
         return res.status(200).json({

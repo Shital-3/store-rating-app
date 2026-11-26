@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import StarRating from "./StarRating";
 import "./StoreCard.css";
 
 const StoreCard = ({ store, onSubmitRating }) => {
 
-    const [selectedRating, setSelectedRating] = useState(
-        store.user_rating || 0
-    );
+    const [ratingSelection, setRatingSelection] = useState({
+        storeId: store.id,
+        value: store.user_rating || 0
+    });
     const [isSaving, setIsSaving] = useState(false);
-
-    // Keep local rating in sync if the store prop changes underneath us
-    // (e.g. after a refetch)
-    useEffect(() => {
-        setSelectedRating(store.user_rating || 0);
-    }, [store.user_rating]);
+    const selectedRating =
+        ratingSelection.storeId === store.id
+            ? ratingSelection.value
+            : (store.user_rating || 0);
 
     const hasExistingRating = Boolean(store.user_rating);
     const isUnchanged = hasExistingRating && selectedRating === store.user_rating;
@@ -50,7 +49,9 @@ const StoreCard = ({ store, onSubmitRating }) => {
                     <StarRating
                         rating={selectedRating}
                         interactive={!isSaving}
-                        onRate={setSelectedRating}
+                        onRate={(value) =>
+                            setRatingSelection({ storeId: store.id, value })
+                        }
                     />
                 </div>
 

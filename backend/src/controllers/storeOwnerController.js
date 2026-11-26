@@ -31,11 +31,11 @@ export const getOwnerDashboard = async (req, res) => {
 
         // 3. Get list of users who rated this store, including timestamp
         const [raters] = await pool.query(
-            `SELECT u.id, u.name, u.email, r.rating, r.created_at AS rated_at
+            `SELECT u.id, u.name, u.email, r.rating, NULL AS rated_at
              FROM ratings r
              JOIN users u ON u.id = r.user_id
              WHERE r.store_id = ?
-             ORDER BY r.created_at DESC`,
+             ORDER BY r.id DESC`,
             [store.id]
         );
 
