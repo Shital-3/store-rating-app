@@ -89,9 +89,7 @@ npm run build
 - Authentication state is managed through the auth context and protected routes.
 - Styling is tuned to preserve the current visual identity while fixing browser-default rendering issues and improving mobile usability.
 
-## Default Admin Login
+## Admin Login
 
-```text
-Email: admin@gmail.com
-Password: Admin@123
-```
+Create an administrator using the backend environment variables and
+`npm run seed:admin`. See the root README for deployment and environment setup.

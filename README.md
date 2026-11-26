@@ -274,7 +274,7 @@ For local development, the frontend uses `http://localhost:5000` as the API by d
 VITE_API_URL=https://your-backend-host
 ```
 
-The frontend appends `/api` to this URL.
+Frontend API requests use the `/api` route prefix.
 
 Frontend application:
 
@@ -286,16 +286,11 @@ Open the frontend URL in your browser.
 
 ---
 
-## 👤 Default Admin Account
+## 👤 Admin Account
 
-A seed administrator account is provided for testing.
-
-```text
-Email: admin@gmail.com
-Password: Admin@123
-```
-
-> ⚠️ Change the default credentials before using the application in a production environment.
+Create an administrator by setting `ADMIN_NAME`, `ADMIN_EMAIL`,
+`ADMIN_PASSWORD`, and `ADMIN_ADDRESS`, then running `npm run seed:admin`
+from the backend directory. Keep the configured password private.
 
 ---
 
@@ -410,6 +405,19 @@ frontend/dist/
 cd backend
 npm start
 ```
+
+---
+
+## 🚀 Deployment
+
+* **Database — TiDB Cloud Starter:** Create a MySQL-compatible database and use its host, username, password, database name, and port (`4000`). The backend requires TLS 1.2 or newer and validates the server certificate.
+* **Backend — Render:** Set the service root directory to `backend`, the start command to `npm start`, and the health check path to `/health`. Configure `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_PORT=4000`, `DB_SSL=true`, `JWT_SECRET`, and `CLIENT_URL` in Render; Render supplies `PORT`. Set `CLIENT_URL` to `http://localhost:5173,https://store-rating-app-rho-one.vercel.app` (or the exact frontend origins you use). For the initial admin seed, also configure `ADMIN_NAME`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_ADDRESS`, then run `npm run schema` and `npm run seed:admin` from the backend directory.
+* **Frontend — Vercel:** Deploy the `frontend` directory. Set `VITE_API_URL` to the Render backend origin, for example `https://your-service.onrender.com` (without `/api`). Vercel rewrites client routes to `index.html`.
+
+Use [backend/.env.example](backend/.env.example) and
+[frontend/.env.example](frontend/.env.example) as templates for local development.
+For local MySQL without TLS, set `DB_SSL=false`; use `DB_SSL=true` for TiDB.
+Never commit actual `.env` files or production credentials.
 
 ---
 

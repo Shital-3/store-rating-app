@@ -77,7 +77,7 @@ const Signup = () => {
         setServerError("");
 
         try {
-            await axiosInstance.post("/auth/signup", formData);
+            await axiosInstance.post("/api/auth/signup", formData);
             navigate("/login");
 
         } catch (err) {

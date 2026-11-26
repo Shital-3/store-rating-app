@@ -14,7 +14,7 @@ const UserDetailPage = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axiosInstance.get(`/admin/users/${userId}`);
+                const response = await axiosInstance.get(`/api/admin/users/${userId}`);
                 setUser(response.data.user);
             } catch {
                 setError("Failed to load user details");

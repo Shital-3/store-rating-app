@@ -57,7 +57,7 @@ const AddUserForm = ({ onSuccess }) => {
         setError("");
 
         try {
-            await axiosInstance.post("/admin/users", formData);
+            await axiosInstance.post("/api/admin/users", formData);
             onSuccess();
 
         } catch (err) {

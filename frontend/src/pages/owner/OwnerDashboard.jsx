@@ -13,7 +13,7 @@ const OwnerDashboard = () => {
     useEffect(() => {
         const fetchDashboard = async () => {
             try {
-                const response = await axiosInstance.get("/owner/dashboard");
+                const response = await axiosInstance.get("/api/owner/dashboard");
                 setDashboard(response.data);
 
             } catch (err) {

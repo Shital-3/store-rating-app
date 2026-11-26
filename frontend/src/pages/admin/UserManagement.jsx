@@ -27,7 +27,7 @@ const UserManagement = () => {
 
     const fetchUsers = useCallback(async () => {
         try {
-            const response = await axiosInstance.get("/admin/users", {
+            const response = await axiosInstance.get("/api/admin/users", {
                 params: {
                     ...filters,
                     sortBy,

@@ -12,7 +12,7 @@ const UserDashboard = () => {
 
     const fetchStores = useCallback(async (searchTerm) => {
         try {
-            const response = await axiosInstance.get("/user/stores", {
+            const response = await axiosInstance.get("/api/user/stores", {
                 params: {
                     name: searchTerm,
                     address: searchTerm
@@ -38,7 +38,7 @@ const UserDashboard = () => {
         const isModifying = Boolean(store?.user_rating);
 
         try {
-            await axiosInstance.post("/user/ratings", {
+            await axiosInstance.post("/api/user/ratings", {
                 storeId,
                 rating
             });

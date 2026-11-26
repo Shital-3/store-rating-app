@@ -20,7 +20,7 @@ const StoreManagement = () => {
 
     const fetchStores = useCallback(async () => {
         try {
-            const response = await axiosInstance.get("/admin/stores", {
+            const response = await axiosInstance.get("/api/admin/stores", {
                 params: {
                     ...filters,
                     sortBy,

@@ -17,7 +17,7 @@ const AddStoreForm = ({ onSuccess }) => {
     useEffect(() => {
         const fetchOwners = async () => {
             try {
-                const response = await axiosInstance.get("/admin/users", {
+                const response = await axiosInstance.get("/api/admin/users", {
                     params: { role: "OWNER" }
                 });
 
@@ -49,7 +49,7 @@ const AddStoreForm = ({ onSuccess }) => {
         setError("");
 
         try {
-            await axiosInstance.post("/admin/stores", {
+            await axiosInstance.post("/api/admin/stores", {
                 ...formData,
                 owner_id: formData.owner_id || null
             });

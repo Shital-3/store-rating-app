@@ -16,7 +16,7 @@ const UpdatePasswordForm = ({ onSuccess }) => {
         setSuccess("");
 
         try {
-            await axiosInstance.put("/account/password", {
+            await axiosInstance.put("/api/account/password", {
                 currentPassword,
                 newPassword,
                 confirmNewPassword
